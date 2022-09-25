@@ -1,5 +1,6 @@
 import { hello1_backend } from "../../declarations/hello1_backend";
 
+//发布
 async function post() {
   let post_button = document.getElementById("post");
   post_button.disabled = true;
@@ -15,14 +16,9 @@ async function post() {
   post_button.disabled = false;
 }
 
-function timeConverter(UNIX_timestamp) {
-  var a = new Date(Number(UNIX_timestamp / 1000000n));
-  const humanDateFormat = a.toLocaleString();
-  return humanDateFormat;
-}
-
 var num_posts = 0;
 
+//load_posts 加载发布内容
 async function load_posts() {
   let posts_section = document.getElementById("posts");
   let posts = await hello1_backend.posts(0);
@@ -42,6 +38,7 @@ async function load_posts() {
 
 var num_follows = 0;
 
+//load_follows 加载关注用户
 async function load_follows() {
   let follows_section = document.getElementById("follows");
   let follows = await hello1_backend.follows();
@@ -72,6 +69,12 @@ async function load_timeline() {
     timeline_section.appendChild(timeline_metainfo);
     timeline_section.appendChild(timeline_msg);
   }
+}
+
+function timeConverter(UNIX_timestamp) {
+  var a = new Date(Number(UNIX_timestamp / 1000000n));
+  const humanDateFormat = a.toLocaleString();
+  return humanDateFormat;
 }
 
 function load() {
