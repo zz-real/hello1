@@ -1,4 +1,7 @@
-import { hello1_backend } from "../../declarations/hello1_backend";
+import {
+  hello1_backend,
+  createActor,
+} from "../../declarations/hello1_backend";
 
 //发布
 async function post() {
@@ -46,9 +49,35 @@ async function load_follows() {
   follows_section.replaceChildren([]);
   num_follows = follows.length;
   for (var i = 0; i < follows.length; i++) {
-    let post = document.createElement("p");
-    post.innerText = follows[i];
-    follows_section.appendChild(post);
+    // let post = document.createElement("p");
+    // post.innerText = follows[i];
+    // follows_section.appendChild(post);
+
+    let single = document.createElement("button");
+    single.style.marginLeft = "20px";
+    single.className = "follow";
+    single.innerText = follows[i];
+    single.onclick = followClick;
+    follows_section.appendChild(single);
+
+  }
+}
+
+async function followClick(e) {
+  let followlist = document.getElementById("followlist");
+  followlist.replaceChildren([]);
+  let idFilter = e.target.innerText;
+  let followBlog = createActor(idFilter);
+  let posts = await followBlog.posts(0);
+  for (var i = 0; i < posts.length; i++) {
+    let post_metainfo = document.createElement("p");
+    post_metainfo.innerText =
+      posts[i].author + " post in " + timeConverter(posts[i].time);
+    let post_msg = document.createElement("p");
+    post_msg.innerText = posts[i].text;
+
+    followlist.appendChild(post_metainfo);
+    followlist.appendChild(post_msg);
   }
 }
 
